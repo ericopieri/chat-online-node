@@ -6,14 +6,15 @@ const checkRequiredFields =
 		const body = request.body as Record<string, any>
 		const missingFields: Record<string, string> = {}
 
-		for (const field of requiredFields) {
-			if (!(field in body) || !body[field]) {
-				missingFields[field] = "Required field"
-			}
-		}
+		requiredFields.forEach((field) => {
+			if (field in body && body[field]) return
+
+			missingFields[field] = "Required field"
+		})
 
 		if (Object.keys(missingFields).length > 0) {
 			reply.code(400).send(missingFields)
+
 			return
 		}
 

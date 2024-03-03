@@ -1,8 +1,7 @@
 import Fastify from "fastify"
-import UserRoutes from "./routes/UserRoutes"
-import AuthRoutes from "./routes/AuthRoutes"
-
 import jwt from "@fastify/jwt"
+
+import AuthRoutes from "./routes/AuthRoutes"
 
 const app = Fastify({
 	logger: true,
@@ -11,9 +10,7 @@ const app = Fastify({
 app.register(jwt, {
 	secret: "supersecret",
 })
-
 app.register(AuthRoutes)
-app.register(UserRoutes)
 
 app.listen(
 	{
