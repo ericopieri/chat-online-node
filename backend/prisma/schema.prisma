@@ -10,7 +10,26 @@ datasource db {
 model User {
   id           Int      @id @default(autoincrement())
   createdAt    DateTime @default(now())
-  name         String
+  username     String   @unique
   email        String   @unique
   passwordHash String
+  conversations Conversation[] @relation("UsersInConversation")
+  sentMessages  Message[]     @relation("SenderOfMessage")
+}
+
+model Conversation {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  messages  Message[]
+  users     User[]    @relation("UsersInConversation")
+}
+
+model Message {
+  id            Int          @id @default(autoincrement())
+  content       String
+  createdAt     DateTime     @default(now())
+  sender        User         @relation("SenderOfMessage", fields: [senderId], references: [id])
+  senderId      Int
+  conversation  Conversation @relation(fields: [conversationId], references: [id])
+  conversationId Int
 }

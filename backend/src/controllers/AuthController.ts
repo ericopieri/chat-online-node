@@ -30,10 +30,10 @@ export class AuthController implements IAuthController {
 	}
 
 	async signUp(request: FastifyRequest, reply: FastifyReply) {
-		const { email, password, name } = request.body as UserRegisterBody
+		const { email, password, username } = request.body as UserRegisterBody
 
 		try {
-			await this.authService.registerUser({ email, password, name })
+			await this.authService.registerUser({ email, password, username })
 		} catch (err) {
 			const { code, message } = err as ApiServiceException
 

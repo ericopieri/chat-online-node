@@ -1,18 +1,20 @@
 import { FastifyInstance } from "fastify"
 
-import checkRequiredFields from "../middlewares/CheckRequiredFields"
+import { validateBody } from "../middlewares/validateBody"
 
 import { AuthService } from "../services/AuthService"
-import { AuthController } from "../controllers/AuthController" // Import the AuthController class
+import { AuthController } from "../controllers/AuthController"
+import { UserRegisterBodySchema } from "../types/UserRegisterBodyType"
+import { UserLoginBodySchema } from "../types/UserLoginBodyType"
 
-async function AuthRoutes(app: FastifyInstance) {
+export async function AuthRoutes(app: FastifyInstance) {
 	const authService: AuthService = new AuthService(app)
-	const authController: AuthController = new AuthController(authService) // Instantiate AuthController with authService
+	const authController: AuthController = new AuthController(authService)
 
 	app.post(
 		"/login",
 		{
-			preHandler: checkRequiredFields(["email", "password"]),
+			preHandler: validateBody(UserLoginBodySchema),
 		},
 		authController.signIn.bind(authController),
 	)
@@ -20,10 +22,8 @@ async function AuthRoutes(app: FastifyInstance) {
 	app.post(
 		"/register",
 		{
-			preHandler: checkRequiredFields(["email", "password", "name"]),
+			preHandler: validateBody(UserRegisterBodySchema),
 		},
 		authController.signUp.bind(authController),
 	)
 }
-
-export default AuthRoutes

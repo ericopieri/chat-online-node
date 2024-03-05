@@ -48,13 +48,13 @@ export class AuthService implements IAuthService {
 	async registerUser({
 		email,
 		password,
-		name,
+		username,
 	}: UserRegisterBody): Promise<void> {
 		try {
 			await prisma.user.create({
 				data: {
 					email,
-					name,
+					username,
 					passwordHash: await bcrypt.hash(password, 10),
 				},
 			})

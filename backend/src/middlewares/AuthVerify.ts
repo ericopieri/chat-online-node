@@ -1,11 +1,15 @@
 import { FastifyRequest, FastifyReply } from "fastify"
 
-const AuthMiddleware = async (request: FastifyRequest, reply: FastifyReply) => {
+export const AuthMiddleware = async (
+	request: FastifyRequest,
+	reply: FastifyReply,
+) => {
 	try {
 		await request.jwtVerify()
 	} catch (err) {
-		reply.send(err)
+		reply.code(401).send({
+			success: false,
+			err,
+		})
 	}
 }
-
-export default AuthMiddleware
