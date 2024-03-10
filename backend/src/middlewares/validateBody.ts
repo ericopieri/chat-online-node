@@ -1,5 +1,4 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-
 import { z } from "zod"
 
 type ZodErrorSchema = {

@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify"
 import { ConversationService } from "../services/ConversationService"
 import { IConversationController } from "../types/ConversationControllerType"
 import { MessageService } from "../services/MessageService"
+import { PostMessageBodyType } from "../types/PostMessageBodyType"
 
 export class ConversationController implements IConversationController {
 	constructor(private readonly conversationService: ConversationService) {}
@@ -12,7 +13,7 @@ export class ConversationController implements IConversationController {
 	) {
 		const { username: sender } = request.user as { username: string }
 		const { receiver } = request.params as { receiver: string }
-		const { message } = request.body as { message: string }
+		const { message } = request.body as PostMessageBodyType
 
 		try {
 			new MessageService().postMessage(message, { sender, receiver })

@@ -3,6 +3,8 @@ import { ConversationService } from "../services/ConversationService"
 import { ConversationController } from "../controllers/ConversationController"
 
 import { AuthMiddleware } from "../middlewares/AuthVerify"
+import { validateBody } from "../middlewares/validateBody"
+import { PostMessageBodySchema } from "../types/PostMessageBodyType"
 
 export async function ConversationRoutes(app: FastifyInstance): Promise<void> {
 	const conversationController: ConversationController =
@@ -10,9 +12,7 @@ export async function ConversationRoutes(app: FastifyInstance): Promise<void> {
 
 	app.get(
 		"/lastConversations/",
-		{
-			preHandler: AuthMiddleware,
-		},
+		{ preHandler: AuthMiddleware },
 		conversationController.getUserConversations.bind(
 			conversationController,
 		),
@@ -28,9 +28,7 @@ export async function ConversationRoutes(app: FastifyInstance): Promise<void> {
 
 	app.post(
 		"/sendMessage/:receiver",
-		{
-			preHandler: AuthMiddleware,
-		},
+		{ preHandler: [AuthMiddleware, validateBody(PostMessageBodySchema)] },
 		conversationController.postMessageIntoConversation.bind(
 			conversationController,
 		),
