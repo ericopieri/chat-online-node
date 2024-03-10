@@ -9,16 +9,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthMiddleware = void 0;
-const AuthMiddleware = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
+exports.validateBody = void 0;
+const validateBody = (schema) => (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield request.jwtVerify();
+        schema.parse(request.body);
     }
     catch (err) {
-        reply.code(401).send({
+        const { issues } = err;
+        reply.status(400).send({
             success: false,
-            err,
+            issues: issues.reduce((acc, issue) => {
+                acc[issue.path[0]] = issue.message;
+                return acc;
+            }, {}),
         });
     }
 });
-exports.AuthMiddleware = AuthMiddleware;
+exports.validateBody = validateBody;

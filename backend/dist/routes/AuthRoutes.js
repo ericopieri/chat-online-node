@@ -8,23 +8,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const CheckRequiredFields_1 = __importDefault(require("../middlewares/CheckRequiredFields"));
+exports.AuthRoutes = void 0;
+const validateBody_1 = require("../middlewares/validateBody");
 const AuthService_1 = require("../services/AuthService");
-const AuthController_1 = require("../controllers/AuthController"); // Import the AuthController class
+const AuthController_1 = require("../controllers/AuthController");
+const UserRegisterBodyType_1 = require("../types/UserRegisterBodyType");
+const UserLoginBodyType_1 = require("../types/UserLoginBodyType");
 function AuthRoutes(app) {
     return __awaiter(this, void 0, void 0, function* () {
         const authService = new AuthService_1.AuthService(app);
-        const authController = new AuthController_1.AuthController(authService); // Instantiate AuthController with authService
+        const authController = new AuthController_1.AuthController(authService);
         app.post("/login", {
-            preHandler: (0, CheckRequiredFields_1.default)(["email", "password"]),
-        }, authController.signIn);
+            preHandler: (0, validateBody_1.validateBody)(UserLoginBodyType_1.UserLoginBodySchema),
+        }, authController.signIn.bind(authController));
         app.post("/register", {
-            preHandler: (0, CheckRequiredFields_1.default)(["email", "password", "name"]),
-        }, authController.signUp);
+            preHandler: (0, validateBody_1.validateBody)(UserRegisterBodyType_1.UserRegisterBodySchema),
+        }, authController.signUp.bind(authController));
     });
 }
-exports.default = AuthRoutes;
+exports.AuthRoutes = AuthRoutes;

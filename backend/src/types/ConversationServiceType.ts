@@ -1,3 +1,3 @@
 export interface IConversationService {
-	getUserConversations: (userId: number) => Promise<object[]>
+	getUserConversations: (username: string) => Promise<object[]>
 }

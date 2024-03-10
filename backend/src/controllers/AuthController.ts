@@ -11,10 +11,10 @@ export class AuthController implements IAuthController {
 	constructor(private readonly authService: AuthService) {}
 
 	async signIn(request: FastifyRequest, reply: FastifyReply) {
-		const { email, password } = request.body as UserLoginBody
+		const { username, password } = request.body as UserLoginBody
 
 		try {
-			await this.authService.verifyUserCredentials({ email, password })
+			await this.authService.verifyUserCredentials({ username, password })
 		} catch (err) {
 			const { code, message } = err as ApiServiceException
 
@@ -24,7 +24,7 @@ export class AuthController implements IAuthController {
 			})
 		}
 
-		const token = this.authService.generateToken(email)
+		const token = this.authService.generateToken(username)
 
 		return reply.send({ success: true, token })
 	}

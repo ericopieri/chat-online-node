@@ -8,17 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthMiddleware = void 0;
-const AuthMiddleware = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        yield request.jwtVerify();
-    }
-    catch (err) {
-        reply.code(401).send({
-            success: false,
-            err,
+const prismaClient_1 = __importDefault(require("./prismaClient"));
+(function () {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield prismaClient_1.default.message.create({
+            data: {
+                conversationId: 1,
+                senderId: 1,
+                content: "Como está?",
+            },
         });
-    }
-});
-exports.AuthMiddleware = AuthMiddleware;
+        prismaClient_1.default.$disconnect();
+    });
+})();

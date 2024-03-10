@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ApiServiceException = void 0;
 class ApiServiceException extends Error {
     constructor(message, code) {
         super(message);
@@ -7,4 +8,4 @@ class ApiServiceException extends Error {
         this.code = code;
     }
 }
-exports.default = ApiServiceException;
+exports.ApiServiceException = ApiServiceException;

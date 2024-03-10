@@ -9,11 +9,29 @@ export async function ConversationRoutes(app: FastifyInstance): Promise<void> {
 		new ConversationController(new ConversationService())
 
 	app.get(
-		"/user/conversations/:userId",
+		"/lastConversations/",
 		{
 			preHandler: AuthMiddleware,
 		},
 		conversationController.getUserConversations.bind(
+			conversationController,
+		),
+	)
+
+	app.get(
+		"/conversations/:receiver",
+		{ preHandler: AuthMiddleware },
+		conversationController.getSpecificConversation.bind(
+			conversationController,
+		),
+	)
+
+	app.post(
+		"/sendMessage/:receiver",
+		{
+			preHandler: AuthMiddleware,
+		},
+		conversationController.postMessageIntoConversation.bind(
 			conversationController,
 		),
 	)

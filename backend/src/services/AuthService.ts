@@ -11,9 +11,9 @@ import { IAuthService } from "../types/AuthServiceType"
 export class AuthService implements IAuthService {
 	constructor(private readonly app: FastifyInstance) {}
 
-	generateToken(email: string): string {
+	generateToken(username: string): string {
 		try {
-			const token = this.app.jwt.sign({ email })
+			const token = this.app.jwt.sign({ username })
 
 			return token
 		} catch (err) {
@@ -22,12 +22,12 @@ export class AuthService implements IAuthService {
 	}
 
 	async verifyUserCredentials({
-		email,
+		username,
 		password,
 	}: UserLoginBody): Promise<void> {
 		const user = await prisma.user.findUnique({
 			where: {
-				email,
+				username,
 			},
 		})
 

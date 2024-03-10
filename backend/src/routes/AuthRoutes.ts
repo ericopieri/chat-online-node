@@ -12,7 +12,7 @@ export async function AuthRoutes(app: FastifyInstance) {
 	const authController: AuthController = new AuthController(authService)
 
 	app.post(
-		"/login",
+		"/login/",
 		{
 			preHandler: validateBody(UserLoginBodySchema),
 		},
@@ -20,7 +20,7 @@ export async function AuthRoutes(app: FastifyInstance) {
 	)
 
 	app.post(
-		"/register",
+		"/register/",
 		{
 			preHandler: validateBody(UserRegisterBodySchema),
 		},
