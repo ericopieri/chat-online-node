@@ -1,0 +1,26 @@
+### get conversation with user by username
+
+POST http://localhost:3000/login/
+Content-Type: application/json
+
+{
+    "username": "teste",
+    "password": "teste12345"
+}
+
+### get conversation with user by username
+
+GET http://localhost:3000/lastConversations/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RlIiwiaWF0IjoxNzEwMDQzOTM1fQ.x9lSL0Efp0Il8kYcxNPQbbf8WksBfCpL-sxjO2EjB3M
+
+
+### post new message into conversation
+
+POST http://localhost:3000/sendMessage/teste
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVyaWNvcGllcmkiLCJpYXQiOjE3MTAwNDM3MDR9.kA1uylV_BNSq3j4mRC5j3qjGKYKnriSTu6xE881ueDI
+
+{
+
+}
